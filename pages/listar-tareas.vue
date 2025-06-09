@@ -42,10 +42,17 @@ import { TaskModel } from '#imports';
 
 const tasks = ref<TaskModel[]>([]);
 
-async function getData(){
+// Número de página
+const page = ref(1);
+// Número de elementos por página
+const limit = ref(5);
+
+async function getData(page: number, limit: number){
   try {
       console.debug("Obteniending...");
-      let response = await useApiFetch('/task');
+      let response = await useApiFetch(`/task/${page}/${limit}`, {
+        method: "GET"
+      });
       console.debug(response.message);
       // console.debug(response.task_list);
       
@@ -73,7 +80,7 @@ async function updateTask(task: TaskModel){
   }
 }
 
-getData();
+getData(page.value, limit.value);
 </script>
 
 <style>
