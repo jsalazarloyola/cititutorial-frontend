@@ -21,8 +21,8 @@
                 <input
                   class="checkbox"
                   type="checkbox"
-                  v-model="task.completed"
                   v-bind="task.completed"
+                  v-model="task.completed"
                   v-on:change="updateTask(task)"
                 >
               </td>
@@ -38,19 +38,20 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useApiFetch } from '~/composables/useApiFetch';
+import { TaskModel } from '#imports';
 
-const tasks = ref([]);
+const tasks = ref<TaskModel[]>([]);
 
 async function getData(){
   try {
       console.debug("Obteniending...");
       let response = await useApiFetch('/task');
       console.debug(response.message);
-      console.debug(response.task_list);
+      // console.debug(response.task_list);
       
       for(const task of response.task_list){
         // console.log(task)
-        tasks.value.push(task);
+        tasks.value.push(new TaskModel(task));
       }
       
       // console.debug(tasks.value);
@@ -59,11 +60,11 @@ async function getData(){
   }
 }
 
-async function updateTask(task){
+async function updateTask(task: TaskModel){
   console.log("Actualiza tarea", task.title);
   try {
       let response = await useApiFetch('/task/' + task._id, {
-          method: 'PUT', body: task
+          method: 'PUT', body: task.toPlainObject()
       });
       console.log(response.data);
   } catch(error){

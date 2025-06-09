@@ -16,23 +16,19 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { useApiFetch } from '~/composables/useApiFetch';
+import { UseTaskClass } from '#imports';
 
-const task = ref({
-  title: "",
-  description: "",
-  date: ""
-})
+const {task} = UseTaskClass();
 
 async function send(){
   console.log("Mandanding: ", task);
   try {
     let response = await useApiFetch('/task', {
-      method: 'POST', body: task._rawValue
+      method: 'POST', body: task.toPlainObject()
     });
-    task.value = response.task
-    console.log(task.value)
+    response.task
+    console.log(response.task)
   } catch(error) {
     // Mensaje de error mágico-divino
     console.log("error", error)
