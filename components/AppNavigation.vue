@@ -5,6 +5,16 @@
         <div class="navbar-item button">
           <a href="/">Inicio</a>
         </div>
+
+        <div class="navbar-item has-dropdown is-hoverable button">
+          <div class="navbar-link">
+            Acciones
+          </div>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="/nueva-tarea">Nueva tarea</a>
+            <a class="navbar-item" href="/listar-tareas">Listar tareas</a>
+          </div>
+        </div>
       </div>
 
       <div class="navbar-end">

@@ -49,7 +49,7 @@ async function getData(){
       console.debug(response.task_list);
       
       for(const task of response.task_list){
-        console.log(task)
+        // console.log(task)
         tasks.value.push(task);
       }
       
