@@ -4,7 +4,7 @@ import { NuxtLayout } from '#components';
 </script>
 
 <template>
-  <div>
+  <div class="section">
     <NuxtLayout>
       <NuxtPage></NuxtPage>
     </NuxtLayout>

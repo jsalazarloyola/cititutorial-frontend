@@ -1,8 +1,8 @@
 <template>
-  <h2>Tareas disponibles</h2>
+  <h2 class="title">Tareas disponibles</h2>
     <div>
-      <form>
-        <table class="table">
+      <div>
+        <table class="table is-striped is-hoverable is-fullwidth">
           <thead>
             <tr>
               <th>Título</th>
@@ -19,10 +19,11 @@
               <td>
                 <!-- Llama a updateTask con cada cambio -->
                 <input
-                    type="checkbox"
-                    v-model="task.completed"
-                    v-bind="task.completed"
-                    v-on:change="updateTask(task)"
+                  class="checkbox"
+                  type="checkbox"
+                  v-model="task.completed"
+                  v-bind="task.completed"
+                  v-on:change="updateTask(task)"
                 >
               </td>
             </tr>
@@ -30,7 +31,7 @@
         </table>
         <!-- Falta actualizar las tareas como completadas D: -->
         <!-- <button type="submit" @click="updateTask">Actualizar tareas</button> -->
-      </form>
+      </div>
     </div>
 </template>
 
@@ -52,7 +53,7 @@ async function getData(){
         tasks.value.push(task);
       }
       
-      console.debug(tasks.value);
+      // console.debug(tasks.value);
   } catch(error){
       console.error('error', error);
   }

@@ -1,6 +1,9 @@
 <template>
-    <div>
-        <h1>Esta es una página para probar cómo ir ordenando y poniendo cosas en esta cosa.</h1> 
+    <div class="section">
+        <h1 class="subtitle">Acerca de</h1>
+        <div class="block">
+            Esta es una página para probar cómo ir ordenando y poniendo cosas en esta cosa.
+        </div>
     </div>
 </template>
 

@@ -1,18 +1,18 @@
 <template>
-  <h3>Nueva tarea</h3>
-    <div>
-      <div class="form-item">
-        <label for="task.title">Título de la tarea: </label>
-        <input type="text" v-model="task.title" id="title" placeholder="Título">
+  <h3 class="title is-4">Nueva tarea</h3>
+    <form>
+      <div class="field">
+        <label class="label" for="task.title">Título de la tarea: </label>
+        <input class="input" type="text" v-model="task.title" id="title" placeholder="Título">
       </div>
-      <div class="form-item">
-        <label for="task.description">Descripción de la tarea: </label>
-        <input type="text" v-model="task.description" id="description" placeholder="Descripción">
+      <div class="field">
+        <label class="label" for="task.description">Descripción de la tarea: </label>
+        <input class="input" type="text" v-model="task.description" id="description" placeholder="Descripción">
       </div>
       <div>
-        <button @click="send">Crear tarea</button>
+        <button class="button is-link" @click="send">Crear tarea</button>
       </div>
-    </div>
+    </form>
 </template>
 
 <script lang="ts" setup>

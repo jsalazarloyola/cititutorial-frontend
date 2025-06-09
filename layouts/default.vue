@@ -1,25 +1,10 @@
 <template>
-  <div>
-      <div>
-        <header>
-          <h1 >Mini sistema de Tareas</h1>
-          <nav>
-            <div>
-              <a href="/">Inicio</a>
-            </div>
-            <div>
-              <a href="/acerca-de">Acerca de</a>
-            </div>
-          </nav>
-        </header>
-        
-      </div>
+  <div class="block">
+      <AppHeader></AppHeader>
       <!-- <slot /> -->
       <NuxtPage></NuxtPage>
 
-      <footer>
-        <div style="text-align: center;">Página random de prueba muy bonita </div>
-      </footer>
+      <AppFooter></AppFooter>
   </div>
 </template>
 
