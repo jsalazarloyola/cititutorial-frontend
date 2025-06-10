@@ -21,7 +21,6 @@
                 <input
                   class="checkbox"
                   type="checkbox"
-                  v-bind="task.completed"
                   v-model="task.completed"
                   v-on:change="updateTask(task)"
                 >
