@@ -1,10 +1,8 @@
-# Nuxt Minimal Starter
+# Proyecto tutorial de Frontend
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Para el entrenamiento en Citiaps con las herramientas de *frontend* de Nuxt3.
 
 ## Setup
-
-Make sure to install dependencies:
 
 ```bash
 # npm
