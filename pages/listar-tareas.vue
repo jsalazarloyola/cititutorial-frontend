@@ -2,49 +2,41 @@
   <h2 class="title">Tareas disponibles</h2>
     <div>
       <div>
-        <table class="table is-striped is-hoverable is-fullwidth">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Descripción</th>
-              <th>Creación</th>
-              <th>Completado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(task, i) in tasks" :key="task._id">
-              <th scope="row"> {{task.title}} </th>
-              <td> {{task.description}} </td>
-              <td> {{task.createdAt }} </td>
-              <td>
-                <!-- Llama a updateTask con cada cambio -->
-                <input
-                  class="checkbox"
-                  type="checkbox"
-                  v-model="task.completed"
-                  v-on:change="updateTask(task)"
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <!-- Falta actualizar las tareas como completadas D: -->
-        <!-- <button type="submit" @click="updateTask">Actualizar tareas</button> -->
+        <AppPagination
+          :current-page="currentPage"
+          :total-pages="total_pages"
+          @page-change="handlePageChange">
+        </AppPagination>
+      </div>
+
+      <div>
+        <AppTaskTable
+          :tasks="tasks"
+          @completion-change="updateTask"
+          >
+        </AppTaskTable>
       </div>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+// import { useRoute, useRouter } from 'vue-router';
 import { useApiFetch } from '~/composables/useApiFetch';
 import { TaskModel } from '#imports';
+import AppPagination from '~/components/AppPagination.vue';
 
-const tasks = ref<TaskModel[]>([]);
+// const route = useRoute();  // Ruta actual
+// const router = useRouter();  // Enrutador
+
+const tasks = ref<TaskModel[]>([]);  // Lista de tareas
+const total_tasks = ref(0);  // Número total de tareas (estimado por el backend)
+const total_pages = ref(0);  // Número total de paǵinas (calculado al obtener las tareas)
 
 // Número de página
-const page = ref(1);
+const currentPage = ref(1);
 // Número de elementos por página
-const limit = ref(5);
+const limit = ref(3);
 
 async function getData(page: number, limit: number){
   try {
@@ -53,8 +45,12 @@ async function getData(page: number, limit: number){
         method: "GET"
       });
       console.debug(response.message);
-      // console.debug(response.task_list);
+      total_tasks.value = response.total_tasks;
+      total_pages.value = Math.ceil(total_tasks.value / limit);
+      // console.debug(response.task_list, total_task.value);
       
+      // Reinicia el arreglo
+      tasks.value.length = 0;
       for(const task of response.task_list){
         // console.log(task)
         tasks.value.push(new TaskModel(task));
@@ -79,7 +75,23 @@ async function updateTask(task: TaskModel){
   }
 }
 
-getData(page.value, limit.value);
+// Función para manejar el cambio de página actual
+const handlePageChange = (newPage: number) => {
+  currentPage.value = newPage;
+}
+
+watch(currentPage,  // ref o reactive que sapear
+  // Esta función que se define como "callback" para esto puede tomar como parámetros
+  // el valor nuevo que tiene la variable observada y el valor original que tenía,
+  // en ese orden
+  () => {
+    getData(currentPage.value, limit.value);
+    AppPagination
+  },
+ { immediate: true}  // Ejecuta inmediatamente
+)
+
+getData(currentPage.value, limit.value);
 </script>
 
 <style>
