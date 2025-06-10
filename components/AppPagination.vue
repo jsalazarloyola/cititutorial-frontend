@@ -2,18 +2,18 @@
   <nav class="pagination is-centered">
     <!-- Botones de página previa y siguiente -->
      <!-- No puedo hacer que esta verga muestre el estilo habilitado cuando lo está x.x -->
-    <a href="#"
+    <button
       :class="{'pagination-previous': true, 'is-disabled': currentPage === 1}"
       :disabled="currentPage === 1"
       @click="changePage(currentPage - 1)">
       Previa
-    </a>
-    <a  href="#"
+    </button>
+    <button
       :class="{'pagination-next': true, 'is-disabled': currentPage === totalPages}"
       :disabled="currentPage === totalPages"
       @click="changePage(currentPage + 1)">
       Siguiente
-    </a>
+    </button>
 
     <!-- Lista de páginas -->
     <ul class="pagination-list">
