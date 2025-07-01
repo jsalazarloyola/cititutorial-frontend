@@ -3,7 +3,13 @@
     <div class="navbar-menu">
       <div class="navbar-start">
         <div class="navbar-item button">
-          <a href="/">Inicio</a>
+          <NuxtLink to="/">Inicio</NuxtLink>
+        </div>
+        <div v-if="!authenticated" class="navbar-item button">
+          <NuxtLink to="/login">Iniciar sesión</NuxtLink>
+        </div>
+        <div v-if="authenticated" class="navbar-item button">
+          <NuxtLink @click="logout">Cerrar sesión</NuxtLink>
         </div>
 
         <div class="navbar-item has-dropdown is-hoverable button">
@@ -11,15 +17,15 @@
             Acciones
           </div>
           <div class="navbar-dropdown">
-            <a class="navbar-item" href="/nueva-tarea">Nueva tarea</a>
-            <a class="navbar-item" href="/listar-tareas">Listar tareas</a>
+            <NuxtLink v-if="authenticated" class="navbar-item" to="/nueva-tarea">Nueva tarea</NuxtLink>
+            <NuxtLink v-if="authenticated" class="navbar-item" to="/listar-tareas">Listar tareas</NuxtLink>
           </div>
         </div>
       </div>
 
       <div class="navbar-end">
         <div class="navbar-item button">
-          <a href="/acerca-de">Acerca de</a>
+          <NuxtLink to="/acerca-de">Acerca de</NuxtLink>
         </div>
       </div>
     </div>
@@ -27,7 +33,19 @@
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '~/store/auth';
 
+// Obtiene solo las acciones y atributos que interesan en este lado
+const { logoutUser } = useAuthStore();
+const { authenticated } = storeToRefs(useAuthStore());
+
+const router = useRouter();
+
+const logout = () => {
+  logoutUser();
+  router.push('/login');
+}
 </script>
 
 <style>

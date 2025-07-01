@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
+
   app: {
     head: {
       title: "Minisistema de Tareas",
@@ -14,10 +15,14 @@ export default defineNuxtConfig({
 
   // Página de estilos con Bulma
   css: ["~/assets/styles/main.scss"],
+
   runtimeConfig: {
     public: {
       // Dirección base de backend debería ser variable de entorno
       baseURL: process.env.BASE_URL || "http://localhost:3000"
     }
-  }
+  },
+
+  // Añade módulos, piña ~~colada~~ para los almacenes (stores)
+  modules: ['@pinia/nuxt']
 })
