@@ -8,12 +8,14 @@ export const useAuthStore = defineStore(
     // Estado del almacén
     state: () => ({
       authenticated: false,
+      username: "",
     }),
     actions: {
       // Autenticar usuario
       async authenticateUser( userPayload: IUserPayload ){
         console.log(userPayload, JSON.stringify(userPayload));
         try {
+          // Biblioteca dummy, por mientras
           const res: any = await $fetch('https://dummyjson.com/auth/login', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
@@ -31,6 +33,7 @@ export const useAuthStore = defineStore(
             token.value = res.refreshToken;
             // Dice que está autenticado
             this.authenticated = true;
+            this.username = userPayload.username;
           }
         } catch (error) {
           console.log(error);
