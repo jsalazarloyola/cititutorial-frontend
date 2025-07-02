@@ -1,6 +1,6 @@
 <template>
   <h3 class="title is-4">Nueva tarea</h3>
-    <form>
+    <form class="control">
       <div class="field">
         <label class="label" for="task.title">Título de la tarea: </label>
         <input class="input" type="text" v-model="task.title" id="title" placeholder="Título">

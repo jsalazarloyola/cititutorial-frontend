@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { IUserPayload } from '~/models/userModel';
+import { LDAPResponse, type IUserPayload } from '~/models/userModel';
 import { useApiFetch } from '#imports';
 
 // Esto se comparte por toda la aplicación
@@ -8,7 +8,7 @@ export const useAuthStore = defineStore(
     // Estado del almacén
     state: () => ({
       authenticated: false,
-      username: "",
+      user: "",
     }),
     actions: {
       // Autenticar usuario
@@ -16,27 +16,39 @@ export const useAuthStore = defineStore(
         console.log(userPayload, JSON.stringify(userPayload));
         try {
           // Biblioteca dummy, por mientras
-          const res: any = await $fetch('https://dummyjson.com/auth/login', {
+          // const res: any = await $fetch('https://dummyjson.com/auth/login', {
+          // the real deal
+          const res: LDAPResponse = await useApiFetch("login", {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: {
-              username: userPayload.username,
+              user: userPayload.user,
               password: userPayload.password
             }
-          });
+          }).then(res => new LDAPResponse(res));  // Explícitamente dice que será una respuesta
+          // Debuging
           console.log(res);
+          // console.log(res.decodeToken());
 
-          if(res.refreshToken) {
-            // Crea galleta
-            const token = useCookie('token');
-            // Le da el valor del token
-            token.value = res.refreshToken;
-            // Dice que está autenticado
-            this.authenticated = true;
-            this.username = userPayload.username;
-          }
+          const payload = res.decodeToken();
+          this.user = payload.user.user;
+          this.authenticated = true;
+          const token = useCookie('token');
+          token.value = res.token;
+
+          // Ye olde try
+          // if(res.token) {
+          //   // Crea galleta
+          //   const token = useCookie('token');
+          //   // Le da el valor del token
+          //   token.value = res.token;
+          //   // Dice que está autenticado
+          //   this.authenticated = true;
+          //   this.user = userPayload.user;
+          // }
         } catch (error) {
           console.log(error);
+          this.authenticated = false;
         }
       },
       // Desloguear

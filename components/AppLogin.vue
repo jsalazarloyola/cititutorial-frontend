@@ -6,7 +6,7 @@
       <input
         class="input" type="text"
         placeholder="Usuario de correo sin @usach.cl"
-        v-model="user.username"
+        v-model="user.user"
         required>
     </div>
     <div class="field">
@@ -35,7 +35,7 @@ const emit = defineEmits<{
 
 function submit() {
   // console.log("emitido login");
-  if(user.value.username && user.value.password){
+  if(user.value.user && user.value.password){
     emit('submitLogin', user.value);
   }
 }
