@@ -26,8 +26,8 @@ const wrong_login = ref(false);
 
 async function login(user: User) {
   // llama la autenticación D:
-  let res = await authenticateUser(user);
-  console.log("in", authenticated.value, res);
+  await authenticateUser(user);
+  console.log("in", authenticated.value);
   if(authenticated.value) {
     router.push('/');
   } else {

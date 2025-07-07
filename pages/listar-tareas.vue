@@ -25,7 +25,10 @@ import { ref, watch } from 'vue';
 import { useApiFetch } from '~/composables/useApiFetch';
 import { TaskModel } from '#imports';
 import AppPagination from '~/components/AppPagination.vue';
+import { useAuthStore } from '~/store/auth';
 
+const authStore = useAuthStore();
+authStore.initializeAuth();
 // const route = useRoute();  // Ruta actual
 // const router = useRouter();  // Enrutador
 
@@ -40,9 +43,12 @@ const limit = ref(3);
 
 async function getData(page: number, limit: number){
   try {
-      console.debug("Obteniending...");
+      console.debug(authStore.authenticated, authStore.authToken);
       let response = await useApiFetch(`/task/${page}/${limit}`, {
-        method: "GET"
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authStore.authToken}`
+        }
       });
       console.debug(response.message);
       total_tasks.value = response.total_tasks;
